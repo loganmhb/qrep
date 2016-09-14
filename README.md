@@ -10,6 +10,8 @@ You invoke it like this:
 
 It will search through `file.txt` looking for `term`. When it finds a match, it will ask you if you want to replace `term` with `replacement`, highlighting them with fancy magical terminal escape codes. If you say yes, it will make the replacement.
 
+It looks like this: [[https://github.com/loganmhb/qrep/blob/master/img/actionshot.png|alt=screenshot]]
+
 `term` is interpreted as a Python regular expression, directly. In `replacement`, capture groups from the regex are available using backslash notation. So for example,
 
     qrep 'def ([a-z]+)(\(.*\)):' 'def \2\1:' qrep.py
