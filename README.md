@@ -8,7 +8,7 @@ It will search through `file.txt` looking for `term`. When it finds a match, it 
 
 `term` is interpreted as a Python regular expression, directly. In `replacement`, backslash groups from the regex are available. So for example,
 
-    ./qrep.py 'def ([a-z_]+)(\(.\)):' 'def \2\1:' qrep.py
+    ./qrep.py 'def ([a-z]+)(\(.*\)):' 'def \2\1:' qrep.py
 
 will switch the name and arguments of each function definition in the file qrep.py.
 

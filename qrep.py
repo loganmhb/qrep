@@ -41,7 +41,7 @@ def red(text):
 
 
 def query():
-    choice = input("Make replacement? [y/n]")
+    choice = input("Make replacement? [y/n] ")
     if choice == 'y':
         return True
     elif choice == 'n':
@@ -63,7 +63,6 @@ def display_section(match, replacement):
     s = match.string
     match_start, match_end = match.span()
     display_start, display_end = find_boundaries(s, match_start, match_end)
-    print("disp start: ", display_start, ", match_start: ", match_start, ", match_end: ", match_end, ", disp end:", display_end)
     print("".join([s[display_start:match_start],
                    red(s[match_start:match_end]),
                    green(match.expand(replacement)),
@@ -73,13 +72,10 @@ def display_section(match, replacement):
 def query_replace(search, replacement, f):
     regex = re.compile(search)
     file_str = open(f).read()
-    print("length:", len(file_str))
     output = ""
     search_start = 0
     match = regex.search(file_str)
-    print("first match:", match)
     while match:
-        print("start:", search_start)
         display_section(match, replacement)
         match_start, match_end = match.span()
         if query():
