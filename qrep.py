@@ -66,7 +66,7 @@ def display_section(match, replacement):
     print("disp start: ", display_start, ", match_start: ", match_start, ", match_end: ", match_end, ", disp end:", display_end)
     print("".join([s[display_start:match_start],
                    red(s[match_start:match_end]),
-                   green(replacement),
+                   green(match.expand(replacement)),
                    s[match_end:display_end]]))
 
 
@@ -84,7 +84,7 @@ def query_replace(search, replacement, f):
         match_start, match_end = match.span()
         if query():
             output += match.string[search_start:match_start]
-            output += replacement
+            output += match.expand(replacement)
         else:
             output += match.string[search_start:match_end]
 
