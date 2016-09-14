@@ -18,9 +18,13 @@
 import argparse
 import re
 import os
-
+import sys
 
 parser = argparse.ArgumentParser(description='Like sed, but indecisive.')
+parser.add_argument('-r', '--recursive', action='store_true',
+                    help='If FILE is a directory, process it recursively.')
+parser.add_argument('-i', '--ignore', metavar='PATTERN',
+                    help='Pattern of filenames to ignore during recursive operation.')
 parser.add_argument('search_string')
 parser.add_argument('replacement_string')
 parser.add_argument('file')
@@ -105,10 +109,25 @@ def query_replace_string(current_file, search, replacement, text):
     output += text[search_start:]
     return output
 
-def query_replace_file(search, replacement, filename):
+
+def ignored(filename, pattern):
+    if pattern and re.match(pattern, filename):
+        return True
+    else:
+        return False
+
+
+def query_replace_file(search, replacement, filename, ignore_pattern, recursive=False):
+    if ignored(os.path.basename(filename), ignore_pattern):
+        return
+
     if os.path.isdir(filename):
-        for entry in os.scandir(filename):
-            query_replace_file(search, replacement, entry.path)
+        if recursive:
+            for entry in os.scandir(filename):
+                query_replace_file(search, replacement, entry.path,
+                                   ignore_pattern, recursive=True)
+        else:
+            sys.exit('ERROR: Directory specified on non-recursive search; use --recursive.')
     else:
         with open(filename, 'r') as f:
             contents = f.read()
@@ -119,7 +138,8 @@ def query_replace_file(search, replacement, filename):
 
 def main():
     args = parser.parse_args()
-    query_replace_file(args.search_string, args.replacement_string, args.file)
+    query_replace_file(args.search_string, args.replacement_string, args.file,
+                       args.ignore, recursive=args.recursive)
 
 if __name__ == "__main__":
     main()
