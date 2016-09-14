@@ -22,8 +22,8 @@ If the file argument is a directory and you specify `-r` or `--recursive`, `qrep
 
 ## Installation
 
-Coming soon: a homebrew recipe!
+Just for fun, you can install this thing with Homebrew.
 
-For now, this does the trick:
+    brew tap loganmhb/tap
+    brew install qrep
 
-    cp qrep ~/bin/qrep
