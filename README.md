@@ -9,7 +9,5 @@ It will search through `file.txt` looking for `term`. When it finds a match, it 
 `term` is interpreted as a Python regular expression, directly. Use at your own risk.
 
 # Coming soon
-- More than one match per line
-- Support for regex groups in `replacement`
 - Update files in place
 - Recursive searches of directories
