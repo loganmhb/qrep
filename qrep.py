@@ -36,19 +36,21 @@ def match_indices(match, s):
 def green(text):
     return "\033[32;m" + text + "\033[37;m"
 
+def yellow(text):
+    return "\033[33;m" + text + "\033[37;m"
 
 def red(text):
     return "\033[35;m" + text + "\033[37;m"
 
 
 def query():
-    choice = input("Make replacement? [y/n] ")
+    choice = input(yellow("\nMake replacement? [y/n] "))
     if choice == 'y':
         return True
     elif choice == 'n':
         return False
     else:
-        print("Please choose y or n.")
+        print(red("Please choose y or n."))
         return query()
 
 
@@ -70,10 +72,11 @@ def find_boundaries(s, match_start, match_end, extra_lines=2):
     return start, end
 
 
-def display_section(match, replacement):
+def display_section(current_file, match, replacement):
     """
     Print a match and replacement along with a couple lines of context.
     """
+    print(yellow("".join([ "*** Match in file:", current_file, "***\n"])))
     s = match.string
     match_start, match_end = match.span()
     display_start, display_end = find_boundaries(s, match_start, match_end)
@@ -83,13 +86,13 @@ def display_section(match, replacement):
                    s[match_end:display_end]]))
 
 
-def query_replace_string(search, replacement, text):
+def query_replace_string(current_file, search, replacement, text):
     regex = re.compile(search)
     output = ""
     search_start = 0
     match = regex.search(text)
     while match:
-        display_section(match, replacement)
+        display_section(current_file, match, replacement)
         match_start, match_end = match.span()
         if query():
             output += match.string[search_start:match_start]
@@ -109,14 +112,13 @@ def query_replace_file(search, replacement, filename):
     else:
         with open(filename, 'r') as f:
             contents = f.read()
-        new_contents = query_replace_string(search, replacement, contents)
+        new_contents = query_replace_string(filename, search, replacement, contents)
         with open(filename, 'w') as f:
             f.write(new_contents)
 
 
 def main():
     args = parser.parse_args()
-    print(args)
     query_replace_file(args.search_string, args.replacement_string, args.file)
 
 if __name__ == "__main__":
