@@ -17,6 +17,7 @@
 
 import argparse
 import re
+import os
 
 
 parser = argparse.ArgumentParser(description='Like sed, but indecisive.')
@@ -51,15 +52,28 @@ def query():
         return query()
 
 
-def find_boundaries(s, match_start, match_end):
-    while s[match_start] != '\n' and match_start > 0:
-        match_start -= 1
-    while s[match_end] != '\n' and match_end < len(s):
-        match_end += 1
-    return match_start, match_end
+def find_boundaries(s, match_start, match_end, extra_lines=2):
+    start = match_start
+    end = match_end
+    for i in range(extra_lines):
+        boundary = s.rfind('\n', 0, start-1)
+        if boundary == -1:
+            break
+        start = boundary
+
+    for i in range(extra_lines):
+        boundary = s.find('\n', end+1)
+        if boundary == -1:
+            break
+        end = boundary
+
+    return start, end
 
 
 def display_section(match, replacement):
+    """
+    Print a match and replacement along with a couple lines of context.
+    """
     s = match.string
     match_start, match_end = match.span()
     display_start, display_end = find_boundaries(s, match_start, match_end)
@@ -69,12 +83,11 @@ def display_section(match, replacement):
                    s[match_end:display_end]]))
 
 
-def query_replace(search, replacement, f):
+def query_replace_string(search, replacement, text):
     regex = re.compile(search)
-    file_str = open(f).read()
     output = ""
     search_start = 0
-    match = regex.search(file_str)
+    match = regex.search(text)
     while match:
         display_section(match, replacement)
         match_start, match_end = match.span()
@@ -85,16 +98,26 @@ def query_replace(search, replacement, f):
             output += match.string[search_start:match_end]
 
         _, search_start = match.span()
-        match = regex.search(file_str, search_start)
-    output += file_str[search_start:]
-    print("output:")
-    print(output)
+        match = regex.search(text, search_start)
+    output += text[search_start:]
+    return output
+
+def query_replace_file(search, replacement, filename):
+    if os.path.isdir(filename):
+        for entry in os.scandir(filename):
+            query_replace_file(search, replacement, entry.path)
+    else:
+        with open(filename, 'r') as f:
+            contents = f.read()
+        new_contents = query_replace_string(search, replacement, contents)
+        with open(filename, 'w') as f:
+            f.write(new_contents)
 
 
 def main():
     args = parser.parse_args()
     print(args)
-    query_replace(args.search_string, args.replacement_string, args.file)
+    query_replace_file(args.search_string, args.replacement_string, args.file)
 
 if __name__ == "__main__":
     main()

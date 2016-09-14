@@ -4,14 +4,12 @@
 
     ./qrep.py term replacement file.txt
 
-It will search through `file.txt` looking for `term`. When it finds a match, it will ask you if you want to replace `term` with `replacement`, highlighting them with fancy magical terminal escape codes. When it's done searching, it will print the whole file.
+It will search through `file.txt` looking for `term`. When it finds a match, it will ask you if you want to replace `term` with `replacement`, highlighting them with fancy magical terminal escape codes. If you say yes, it will make the replacement.
 
-`term` is interpreted as a Python regular expression, directly. In `replacement`, backslash groups from the regex are available. So for example,
+`term` is interpreted as a Python regular expression, directly. In `replacement`, capture groups from the regex are available using backslash notation. So for example,
 
     ./qrep.py 'def ([a-z]+)(\(.*\)):' 'def \2\1:' qrep.py
 
 will switch the name and arguments of each function definition in the file qrep.py.
 
-# Coming soon
-- Update files in place
-- Recursive searches of directories
+If the file argument is a directory, `qrep` will recursively perform the search through each file and subdirectory.
