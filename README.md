@@ -26,4 +26,4 @@ Coming soon: a homebrew recipe!
 
 For now, this does the trick:
 
-    cp qrep.py ~/bin/qrep
+    cp qrep ~/bin/qrep
