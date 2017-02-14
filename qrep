@@ -27,7 +27,7 @@ parser.add_argument('-i', '--ignore', metavar='PATTERN',
                     help='Pattern of filenames to ignore during recursive operation.')
 parser.add_argument('search_string')
 parser.add_argument('replacement_string')
-parser.add_argument('file')
+parser.add_argument('file', nargs='+')
 
 
 def match_indices(match, s):
@@ -138,8 +138,9 @@ def query_replace_file(search, replacement, filename, ignore_pattern, recursive=
 
 def main():
     args = parser.parse_args()
-    query_replace_file(args.search_string, args.replacement_string, args.file,
-                       args.ignore, recursive=args.recursive)
+    for file in args.file:
+        query_replace_file(args.search_string, args.replacement_string, file,
+                           args.ignore, recursive=args.recursive)
 
 if __name__ == "__main__":
     main()
