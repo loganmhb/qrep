@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='qrep',
     packages=['qrep'],
-    version='0.1.1',
+    version='0.1.2',
     description='Interactive query-replace',
     author='Logan Buckley',
     author_email='logan.buckley@gmail.com',
