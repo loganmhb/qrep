@@ -8,7 +8,7 @@ setup(
     author='Logan Buckley',
     author_email='logan.buckley@gmail.com',
     url='https://github.com/loganmhb/qrep',
-    download_url='https://github.com/loganmhb/qrep/tarball/0.1.1',
+    download_url='https://github.com/loganmhb/qrep/tarball/0.1.2',
     keywords=['cli query replace sed'],
     entry_points={
         'console_scripts': [
