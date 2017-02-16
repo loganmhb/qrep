@@ -141,6 +141,3 @@ def main():
     for file in args.file:
         query_replace_file(args.search_string, args.replacement_string, file,
                            args.ignore, recursive=args.recursive)
-
-if __name__ == "__main__":
-    main()

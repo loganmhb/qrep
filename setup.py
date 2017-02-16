@@ -9,6 +9,11 @@ setup(
     author_email='logan.buckley@gmail.com',
     url='https://github.com/loganmhb/qrep',
     download_url='https://github.com/loganmhb/qrep/tarball/0.1.1',
-    keywords=['cli', 'query', 'replace', 'sed'],
+    keywords=['cli query replace sed'],
+    entry_points={
+        'console_scripts': [
+            'qrep=qrep.qrep:main'
+        ]
+    },
     classifiers=[]
 )
