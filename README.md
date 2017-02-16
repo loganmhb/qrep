@@ -24,8 +24,6 @@ If the file argument is a directory and you specify `-r` or `--recursive`, `qrep
 
 ## Installation
 
-Just for fun, you can install this thing with Homebrew.
+Install from PyPI via `pip`:
 
-    brew tap loganmhb/tap
-    brew install qrep
-
+    pip install qrep
